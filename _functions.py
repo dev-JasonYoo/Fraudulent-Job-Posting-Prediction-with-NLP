@@ -8,8 +8,8 @@ def plot_confusion_matrix(cm, title):
     fig, ax = plt.subplots()
 
     sns.heatmap(cm, annot=True, fmt='d', cmap='Blues',
-                xticklabels=['Fraudulent', 'Non-fraudulent'],
-                yticklabels=['Fraudulent', 'Non-fraudulent'])
+                xticklabels=['Non-fraudulent', 'Fraudulent'],
+                yticklabels=['Non-fraudulent', 'Fraudulent'])
     plt.title(title)
     plt.ylabel('True label')
     plt.xlabel('Predicted label')
@@ -111,13 +111,21 @@ def plot_loss(loss_history, title, dont_show=False):
     plt.title(title)
     plt.xlabel('Epochs')
     plt.ylabel('Loss')
-    plt.xticks((range(1, len(loss_history['loss'])+1, 5)))
+    
+    n_epoch = len(loss_history['loss'])
+    if n_epoch < 50:
+        plt.xticks((range(1, len(loss_history['loss'])+1, 5)))
+    elif n_epoch < 100:
+        plt.xticks((range(1, len(loss_history['loss'])+1, 10)))
+    elif n_epoch < 300:
+        plt.xticks((range(1, len(loss_history['loss'])+1, 30)))
     
     plt.plot(loss_history['loss'], label='Training Loss')
     plt.plot(loss_history['val_loss'], label='Validation Loss')
     plt.tight_layout()
     plt.legend()
-    plt.show()
+    if not dont_show:
+        plt.show()
 
     return fig, ax
 
