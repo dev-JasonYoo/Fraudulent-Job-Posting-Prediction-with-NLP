@@ -136,7 +136,15 @@ def plot_learning_rate(lr_history, title):
     plt.title(title)
     plt.xlabel('Epochs')
     plt.ylabel('Learning Rate')
-    plt.xticks((range(1, len(lr_history)+1, 5)))
+
+    n_epoch = len(lr_history)
+    if n_epoch < 50:
+        plt.xticks((range(1, len(lr_history)+1, 5)))
+    elif n_epoch < 100:
+        plt.xticks((range(1, len(lr_history)+1, 10)))
+    elif n_epoch < 300:
+        plt.xticks((range(1, len(lr_history)+1, 30)))
+    plt.yscale('log')
     plt.yticks([0.001 * (1/3)**i for i in range(4)])
     ax.set_yticklabels([f"{0.001 * (1/3)**i:.2e}" for i in range(4)])
     
